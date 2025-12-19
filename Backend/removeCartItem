@@ -1,1 +1,20 @@
+//Remove cart item from the shopping cart
 
+private String removeCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException
+{
+ String code = request.getParameter("code");
+
+ HttpSession session = request.getSession();
+
+Cart cart = (cart) session.getAttribute("cart");
+
+Product product = DBProduct.getProductByCode(code);
+
+ if(product!=null && cart!= null)
+  {
+     cart.removeCartItem(product);
+  }
+
+return "/cart/cart.jsp";
+
+}
