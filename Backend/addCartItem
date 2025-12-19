@@ -1,2 +1,24 @@
+
 //Add product to the shopping cart
-private String addCartItem(HttpServletRequest request,
+
+private String addCartItem(HttpServletRequest request, HttpServletResponse response) throws IOexception
+{
+HttpSession session = request.getSession();
+
+Cart cart= (Cart)session.getAttribute("cart");
+
+    if(cart==null)
+     {
+        cart = new cart();
+     }
+String code = request.getParameter("code");
+
+    if(!code.isEmpty())
+     {
+        Product product = DBProduct.getProductByCode(code);
+        cart.addCartItem(product);
+     }
+session.setAttribute("cart",cart);
+return "/index.html";
+
+  
