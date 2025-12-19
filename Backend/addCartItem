@@ -1,1 +1,2 @@
-
+//Add product to the shopping cart
+private String addCartItem(HttpServletRequest request,
