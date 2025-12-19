@@ -1,1 +1,38 @@
 
+//Update cart item quantity in the shopping cart
+
+private String updateCartItem(HttpServletRequest request, HttpServletResponse response) throws IOException
+{
+
+String code = request.getParameter("code");
+
+String qtyString = request.getParameter("quantity");
+
+HttpSession session = request.getSession();
+
+Cart cart = (cart) session.getAttribute("cart");
+
+int quantity;
+Product product = DBProduct.getProductByCode(code);
+
+ try{
+      quantity = Integer.parseInt(qtyString);
+
+  if(quantity < 0 || quantity==0)
+  {  quantity = 1;  }
+
+  if(quantity > product.getQuantity())
+{  quantity = 1;
+  request.setAttribute("insufficientQuantity", "insufficient quantity");
+}
+   }
+catch(NumberFormatException ex)
+{ quantity=1;  }
+
+  if(quantity < product.getQuantity() || quantity == product.getQuantity())
+   {
+     cart.updateCartItem(product,quantity);
+   }
+
+return "/cart/cart.jsp";
+}
